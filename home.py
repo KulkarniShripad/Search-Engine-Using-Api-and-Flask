@@ -1,26 +1,26 @@
-from flask import Flask, render_template, request
-import requests
+from flask import Flask, request,  render_template
 import wikipedia
 
 app = Flask(__name__)
 
-@app.route("/<name>")
-def home(name):
-    return render_template("search_page.html", content=name)
+@app.route('/')
+def index():
+    return render_template('Question.html')
 
-@app.route("/")
-def admin():
-    return render_template("search_page.html")
+@app.route('/answer', methods=['POST'])
+def get_answer():
+    # Get the user's question from the HTML form
+    question = request.form['question']
+    
+    # Use the Wikipedia API to search for the answer
+    try:
+        answer = wikipedia.summary(question)
+    except wikipedia.exceptions.PageError:
+        # If no page is found, return an error message
+        answer = "Sorry, I couldn't find an answer to that question."
+    
+    # Return the answer to the HTML template
+    return render_template('answer.html', answer=answer)
 
-@app.route("/carinfo")
-def info():
-    brand = request.args.get('brand')
-    model = request.args.get('model')
-    param = str(brand + model)
-    wikipedia.set_lang('en')
-    result = wikipedia.search(param)
-    print(result)
-    return render_template("car_info.html", brand=brand,model = model, info = result)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Answer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+			color: #4d4d4d;
+			margin-top: 50px;
+		}
+
+		p {
+			font-size: 24px;
+			line-height: 1.5;
+			text-align: center;
+			color: #4d4d4d;
+			margin: 50px auto;
+			max-width: 80%;
+			background-color: #fff;
+			padding: 20px;
+			box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Answer:</h1>
+	<p>{{ answer }}</p>
+    <script>
+        const answerEl = document.querySelector('p');
+        const answer = answerEl.textContent;
+        answerEl.textContent = '';
+
+        const speed = 10; // in milliseconds
+
+        let i = 0;
+        const typeWriter = () => {
+            if (i < answer.length) {
+                answerEl.textContent += answer.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        setTimeout(typeWriter, 1000);
+    </script>
+</body>
+</html>
